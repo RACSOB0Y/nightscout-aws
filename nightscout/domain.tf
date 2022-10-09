@@ -9,24 +9,12 @@
 resource "aws_route53_zone" "zone_main" {
   name          = "wastehq.uk"
   comment       = "Hosted Zone for wastehq.uk"
-
-  tags {
-    Name      = "wastehq.uk"
-    Origin    = "terraform"
-    Workspace = "${terraform.workspace}"
-  }
 }
 
 # Hosted Zone for dev.example.com
 resource "aws_route53_zone" "zone_sub" {
   name          = "nightscout.wastehq.uk"
   comment       = "Hosted Zone for nightscout.wastehq.uk"
-
-  tags {
-    Name      = "nightscout.wastehq.uk"
-    Origin    = "terraform"
-    Workspace = "${terraform.workspace}"
-  }
 }
 
 # Record in the example.com hosted zone that contains the name servers of the dev.example.com hosted zone.
