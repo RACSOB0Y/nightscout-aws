@@ -14,7 +14,7 @@ checkMongoMount () {
         sudo parted -s -a optimal $EBS_DEV mklabel gpt
         sudo parted -s -a optimal $EBS_DEV mkpart primary ext4 0% 100%
         echo "Formatting disk..."
-        sudo mkfs.ext4 /dev/nvme1n1p1
+        sudo mkfs.ext4 /dev/nvme1n1p1 -F
         echo "Adding disk to the filesystem table..."
         OUTPUT="$(sudo blkid -s UUID -o value ${EBS_DEV}p1)"
         echo "UUID=$OUTPUT    $DATADIR  ext4    defaults    0    1" | sudo tee -a /etc/fstab
