@@ -25,6 +25,7 @@ resource "aws_route53_record" "nightscout-ns" {
   name    = "nightscout.wastehq.uk"
   type    = "NS"
   ttl     = "300"
-  records = aws_route53_zone.nightscout_subdomain_zone.name_servers
+  records = [aws_instance.nightscout.public_ip]
 }
+
 
