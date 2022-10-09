@@ -18,16 +18,16 @@ resource "aws_route53_zone" "nightscout_sub" {
 }
 
 resource "aws_route53_record" "nightscout_sub_ns_record" {
-  zone_id = aws_route53_zone.nightscout_domain_zone.id
+  zone_id = data.aws_route53_zone.nightscout_domain_zone.id
   name    = "nightscout"
   type    = "NS"
-  records = aws_route53_zone.nightscout_sub.name_servers
+  records = resource.aws_route53_zone.nightscout_sub.name_servers
 } 
 resource "aws_route53_record" "nightscout_sub_zone_default_ns_record" {
-  zone_id = aws_route53_zone.nightscout_sub.zone_id
+  zone_id = data.aws_route53_zone.nightscout_sub.zone_id
   type    = "NS" 
   name    = "nightscout.wastehq.uk" 
-  records = aws_route53_zone.nightscout_sub.name_servers
+  records = resource.aws_route53_zone.nightscout_sub.name_servers
   ttl     = "300" 
 } 
 
