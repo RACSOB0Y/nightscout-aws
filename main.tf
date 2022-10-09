@@ -21,8 +21,8 @@ module "vpc" {
 module "launch_key_pair" {
   source             = "terraform-aws-modules/key-pair/aws"
   version            = "2.0.0"
-  key_name           = "nightscout-deploy"
-  create_private_key = false
+  key_name           = "nightscout-keypair"
+  create_private_key = true
 }
 
 # Security groups we can add/remove from our Nightscout instance
