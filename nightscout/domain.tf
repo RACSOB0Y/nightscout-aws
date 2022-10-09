@@ -18,3 +18,12 @@ resource "aws_route53_record" "nightscout_domain_record" {
   ttl     = "300"
   records = [aws_instance.nightscout.public_ip]
 }
+
+# This resource associates the domain name with the nightscout instance
+resource "aws_route53_record" "nightscout_parent_domain_record" {
+  zone_id = "wastehq.uk"
+  name    = var.domain
+  type    = "NS"
+  ttl     = "30"
+  records = [aws_instance.nightscout.public_ip]
+}
