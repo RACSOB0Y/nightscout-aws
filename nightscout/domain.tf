@@ -21,7 +21,7 @@ resource "aws_route53_zone" "nightscout_subdomain_zone" {
 }
 
 resource "aws_route53_record" "nightscout-ns" {
-  zone_id = aws_route53_zone.nightscout_domain_zone.zone_id
+  zone_id = aws_route53_zone.nightscout_domain_zone.id
   name    = "nightscout.wastehq.uk"
   type    = "NS"
   ttl     = "30"
