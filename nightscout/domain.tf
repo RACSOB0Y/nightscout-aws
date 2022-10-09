@@ -23,6 +23,6 @@ resource "aws_route53_record" "ns_record_sub" {
   zone_id = "${aws_route53_zone.zone_main.id}"
   name    = "nightscout"
   ttl     = "86400"
-  records = ["${aws_route53_zone.zone_sub.name_servers}"]
+  records = aws_route53_zone.zone_sub.name_servers
 }
 
