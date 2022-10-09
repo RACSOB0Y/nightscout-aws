@@ -8,13 +8,11 @@
 # Hosted Zone for example.com
 resource "aws_route53_zone" "zone_main" {
   name          = "wastehq.uk"
-  comment       = "Hosted Zone for wastehq.uk"
 }
 
 # Hosted Zone for dev.example.com
 resource "aws_route53_zone" "zone_sub" {
   name          = "nightscout.wastehq.uk"
-  comment       = "Hosted Zone for nightscout.wastehq.uk"
 }
 
 # Record in the example.com hosted zone that contains the name servers of the dev.example.com hosted zone.
@@ -23,6 +21,6 @@ resource "aws_route53_record" "ns_record_sub" {
   zone_id = "${aws_route53_zone.zone_main.id}"
   name    = "nightscout"
   ttl     = "86400"
-  records = aws_route53_zone.zone_sub.name_servers
+  records = resource.aws_route53_zone.zone_sub.name_servers
 }
 
