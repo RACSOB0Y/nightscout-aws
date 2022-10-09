@@ -31,7 +31,7 @@ resource "aws_route53_record" "nightscout-ns" {
 # This resource associates the domain name with the nightscout instance
 resource "aws_route53_record" "nightscout_domain_record" {
   zone_id = data.aws_route53_zone.nightscout_domain_zone.id
-  name    = resource.aws_route53_zone.nightscout_subdomain_zone
+  name    = resource.aws_route53_zone.nightscout_subdomain_zone.name
   type    = "A"
   ttl     = "300"
   records = [aws_instance.nightscout.public_ip]
