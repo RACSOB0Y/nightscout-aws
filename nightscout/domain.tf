@@ -5,22 +5,16 @@
 # resource "aws_route53domains_registered_domain" "nightscout_domain" {
 #   domain_name = var.domain
 # }
-# Hosted Zone for example.com
-resource "aws_route53_zone" "zone_main" {
-  name          = "wastehq.uk"
+data "aws_route53_zone" "nightscout_domain_zone" {
+  name         = var.domain
+  private_zone = false
 }
 
-# Hosted Zone for dev.example.com
-resource "aws_route53_zone" "zone_sub" {
-  name          = "nightscout.wastehq.uk"
+# This resource associates the domain name with the nightscout instance
+resource "aws_route53_record" "nightscout_domain_record" {
+  zone_id = data.aws_route53_zone.nightscout_domain_zone.id
+  name    = var.domain
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.nightscout.public_ip]
 }
-
-# Record in the example.com hosted zone that contains the name servers of the dev.example.com hosted zone.
-resource "aws_route53_record" "ns_record_sub" {
-  type    = "NS"
-  zone_id = "${aws_route53_zone.zone_main.id}"
-  name    = "nightscout"
-  ttl     = "86400"
-  records = resource.aws_route53_zone.zone_sub.name_servers
-}
-
