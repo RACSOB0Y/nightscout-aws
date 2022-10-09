@@ -12,6 +12,22 @@ data "aws_route53_zone" "nightscout_domain_zone" {
   private_zone = false
 }
 
+resource "aws_route53_zone" "nightscout" {
+  name = "nightscout.wastehq.uk"
+
+  tags = {
+    Environment = "nightscout"
+  }
+}
+
+resource "aws_route53_record" "nightscout-ns" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "nightscout.wastehq.uk"
+  type    = "NS"
+  ttl     = "30"
+  records = aws_route53_zone.dev.name_servers
+}
+
 # This resource associates the domain name with the nightscout instance
 resource "aws_route53_record" "nightscout_domain_record" {
   zone_id = data.aws_route53_zone.nightscout_domain_zone.id
