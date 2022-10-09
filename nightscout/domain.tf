@@ -25,7 +25,7 @@ resource "aws_route53_record" "nightscout-ns" {
   name    = "nightscout.wastehq.uk"
   type    = "NS"
   ttl     = "30"
-  records = aws_route53_zone.dev.name_servers
+  records = aws_route53_zone.nightscout.name_servers
 }
 
 # This resource associates the domain name with the nightscout instance
