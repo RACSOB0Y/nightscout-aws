@@ -22,13 +22,14 @@ resource "aws_route53_record" "nightscout_sub_ns_record" {
   name    = "nightscout"
   type    = "NS"
   records = resource.aws_route53_zone.nightscout_sub.name_servers
+  ttl     = "30" 
 } 
 resource "aws_route53_record" "nightscout_sub_zone_default_ns_record" {
   zone_id = resource.aws_route53_zone.nightscout_sub.id
   type    = "NS" 
   name    = "nightscout.wastehq.uk" 
   records = resource.aws_route53_zone.nightscout_sub.name_servers
-  ttl     = "300" 
+  ttl     = "30" 
 } 
 
 
