@@ -5,31 +5,36 @@
 # resource "aws_route53domains_registered_domain" "nightscout_domain" {
 #   domain_name = var.domain
 # }
+# Hosted Zone for example.com
+resource "aws_route53_zone" "zone_main" {
+  name          = "wastehq.uk"
+  comment       = "Hosted Zone for wastehq.uk"
 
-# We use a data source to retreive the Route 53 Zone used by the domain in question.
-data "aws_route53_zone" "nightscout_domain_zone" {
-  name         = var.domain
-  private_zone = false
+  tags {
+    Name      = "wastehq.uk"
+    Origin    = "terraform"
+    Workspace = "${terraform.workspace}"
+  }
 }
 
-resource "aws_route53_zone" "nightscout_sub" {
-  name          = "nightscout.wastehq.uk."
-  force_destroy = false
+# Hosted Zone for dev.example.com
+resource "aws_route53_zone" "zone_sub" {
+  name          = "nightscout.wastehq.uk"
+  comment       = "Hosted Zone for nightscout.wastehq.uk"
+
+  tags {
+    Name      = "nightscout.wastehq.uk"
+    Origin    = "terraform"
+    Workspace = "${terraform.workspace}"
+  }
 }
 
-resource "aws_route53_record" "nightscout_sub_ns_record" {
-  zone_id = data.aws_route53_zone.nightscout_domain_zone.id
-  name    = "nightscout"
+# Record in the example.com hosted zone that contains the name servers of the dev.example.com hosted zone.
+resource "aws_route53_record" "ns_record_sub" {
   type    = "NS"
-  records = resource.aws_route53_zone.nightscout_sub.name_servers
-  ttl     = "30" 
-} 
-resource "aws_route53_record" "nightscout_sub_zone_default_ns_record" {
-  zone_id = resource.aws_route53_zone.nightscout_sub.id
-  type    = "NS" 
-  name    = "nightscout.wastehq.uk" 
-  records = resource.aws_route53_zone.nightscout_sub.name_servers
-  ttl     = "30" 
-} 
-
+  zone_id = "${aws_route53_zone.zone_main.id}"
+  name    = "nightscout"
+  ttl     = "86400"
+  records = ["${aws_route53_zone.zone_sub.name_servers}"]
+}
 
