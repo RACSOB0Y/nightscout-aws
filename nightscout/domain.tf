@@ -17,5 +17,5 @@ resource "aws_route53_record" "nightscout_parent_domain_record" {
   name    = var.domain
   type    = "NS"
   ttl     = "30"
-  records = [aws_instance.nightscout.public_ip]
+  records = aws_route53_zone.nightscout_domain_zone.name_servers
 }
