@@ -23,7 +23,7 @@ resource "aws_route53_zone" "nightscout_subdomain_zone" {
 resource "aws_route53_record" "nightscout-ns" {
   zone_id = data.aws_route53_zone.nightscout_domain_zone.id
   name    = "nightscout.wastehq.uk"
-  type    = "NS"
+  type    = "A"
   ttl     = "300"
   records = [aws_instance.nightscout.public_ip]
 }
